@@ -5,7 +5,7 @@ import { MdDarkMode, MdLightMode, MdAdd } from "react-icons/md";
 const Navbar = ({ isDarkMode, setIsDarkMode }) => {
   return (
     <nav className="w-full border-b transition-colors duration-300 bg-white dark:bg-slate-900 border-gray-200 dark:border-slate-800">
-      {/* Constraints: Max width 1536px, centered, responsive padding */}
+      {/* Constraints: Max width1536px, centered, responsive padding */}
       <div className="max-w-[1536px] min-w-[320px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Left Side: Logo */}
         <div className="flex items-center gap-2">
