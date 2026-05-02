@@ -112,7 +112,7 @@ The application is fully responsive and works smoothly on:
 
 Clone the repository:
 
-git clone https://github.com/shsobur/Kanban-Task-Board.git
+git clone https://github.com/shsobur/Kanban-Task-Board.git  
 cd kanban-task-manager
 
 Install dependencies:
@@ -132,6 +132,7 @@ src/
 │── hooks/  
 │── utils/  
 │── pages/  
+│── App.jsx  
 │── main.jsx
 
 ---
