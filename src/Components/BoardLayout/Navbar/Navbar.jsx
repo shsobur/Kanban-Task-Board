@@ -9,7 +9,7 @@ const Navbar = ({ isDarkMode, setIsDarkMode }) => {
       <div className="max-w-[1536px] min-w-[320px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Left Side: Logo */}
         <div className="flex items-center gap-2">
-          <div className="bg-purple-600 p-2 rounded-lg text-white text-2xl shadow-lg shadow-purple-500/30">
+          <div className="bg-purple-600 p-2 rounded-lg text-white text-xl shadow-lg shadow-purple-500/30">
             <TbSubtask />
           </div>
           <h1 className="text-xl font-bold tracking-tight text-slate-800 dark:text-white hidden sm:block">

@@ -30,7 +30,7 @@ const TaskBoard = () => {
           <FilterBar />
 
           {/* Placeholders for the remaining 4 sections */}
-          <div className="mt-8">
+          <div className="mt-5">
             <div className="h-[600px] border-2 border-dashed border-purple-200 dark:border-slate-800 rounded-3xl flex items-center justify-center text-slate-400">
               Future Section 3: Kanban Board Columns
             </div>
