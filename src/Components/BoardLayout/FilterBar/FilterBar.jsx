@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FiSearch, FiFilter } from "react-icons/fi";
+import { FiSearch } from "react-icons/fi";
 
 const FilterBar = () => {
   const [activeFilter, setActiveFilter] = useState("All");
@@ -12,7 +12,7 @@ const FilterBar = () => {
   ];
 
   return (
-    <section className="mt-5 w-full flex flex-col md:flex-row items-center justify-between gap-4">
+    <section className="mt-6 w-full flex flex-col md:flex-row items-center justify-between gap-4">
       {/* Left Side: Search Bar */}
       <div className="relative w-full md:w-[49%] group">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -21,7 +21,7 @@ const FilterBar = () => {
         <input
           type="text"
           placeholder="Search tasks..."
-          className="w-full pl-10 pr-4 py-2 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all text-slate-700 dark:text-slate-200 placeholder:text-slate-400 outline-none"
+          className="w-full pl-10 pr-4 py-3 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all text-slate-700 dark:text-slate-200 placeholder:text-slate-400 outline-none"
         />
       </div>
 
@@ -32,7 +32,7 @@ const FilterBar = () => {
           <FiFilter />
         </button> */}
 
-        <div className="flex items-center gap-2 bg-gray-100 dark:bg-slate-900/50 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-slate-800">
+        <div className="flex items-center gap-2 bg-gray-100 dark:bg-slate-900/50 px-3 py-3 rounded-lg border border-gray-200 dark:border-slate-800">
           {priorities.map((priority) => (
             <button
               key={priority.name}

@@ -36,17 +36,17 @@ const ProgressBar = () => {
   ];
 
   return (
-    <section className="mt-4 w-full">
+    <section className="mt-5 w-full">
       {/* 4-Column Grid: 1 on mobile, 2 on tablet, 4 on desktop */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
         {/* First 3 Info Cards */}
         {stats.map((stat) => (
           <div
             key={stat.id}
-            className="px-5 py-2.5 rounded-lg bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4 cursor-pointer"
+            className="px-5 py-4 rounded-lg bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4 cursor-pointer"
           >
             <div
-              className={`text-xl p-2.5 rounded-xl ${stat.bgColor} ${stat.color}`}
+              className={`text-xl p-3 rounded-xl ${stat.bgColor} ${stat.color}`}
             >
               {stat.icon}
             </div>
@@ -62,7 +62,7 @@ const ProgressBar = () => {
         ))}
 
         {/* 4th Card: Overall Completion */}
-        <div className="px-5 py-2.5 rounded-lg bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer">
+        <div className="px-5 py-3 rounded-lg bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer">
           <div className="flex justify-between items-center mb-2.5">
             <div className="flex items-center gap-2">
               <div className="text-xl p-2 rounded-lg bg-orange-100 dark:bg-orange-500/10 text-orange-500">

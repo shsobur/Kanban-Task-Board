@@ -5,10 +5,12 @@ import ProgressBar from "../../Components/BoardLayout/ProgressBar/ProgressBar";
 
 // From react__
 import { useState, useEffect } from "react";
+import TaskBoardColumns from "../../Components/BoardLayout/TaskBoardColumns/TaskBoardColumns";
 
 const TaskBoard = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
 
+  // Theme Logic
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add("dark");
@@ -19,22 +21,20 @@ const TaskBoard = () => {
 
   return (
     <div className="h-screen flex flex-col bg-gray-50 dark:bg-slate-950 transition-colors duration-300 overflow-hidden">
+      {/* Fixed Top Navbar */}
       <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
 
+      {/* Main Content (Scrollable) */}
       <main className="flex-1 overflow-y-auto no-scrollbar">
         <div className="max-w-[1536px] min-w-[320px] mx-auto px-4 sm:px-6 lg:px-8 pb-10">
-          {/* Section 1: Progress Stats */}
+          {/* Section 1: Stats */}
           <ProgressBar />
 
           {/* Section 2: Search & Filter */}
           <FilterBar />
 
-          {/* Placeholders for the remaining 4 sections */}
-          <div className="mt-5">
-            <div className="h-[600px] border-2 border-dashed border-purple-200 dark:border-slate-800 rounded-3xl flex items-center justify-center text-slate-400">
-              Future Section 3: Kanban Board Columns
-            </div>
-          </div>
+          {/* Section 3, 4, 5: The Kanban Board (DND Area) */}
+          <TaskBoardColumns />
         </div>
       </main>
     </div>
