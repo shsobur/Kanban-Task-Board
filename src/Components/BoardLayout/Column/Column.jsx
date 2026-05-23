@@ -1,7 +1,7 @@
 import { Droppable } from "@hello-pangea/dnd";
 import TaskCard from "../TaskCard/TaskCard";
 
-const Column = ({ title, tasks, id }) => {
+const Column = ({ title, tasks, id, onClear }) => {
   return (
     <div className="flex flex-col w-full min-w-[320px] bg-gray-50 dark:bg-slate-900/20 rounded-lg border-2 border-gray-200 dark:border-slate-800 p-5">
       {/* Header */}
@@ -16,7 +16,10 @@ const Column = ({ title, tasks, id }) => {
         </div>
 
         {id === "done" && tasks.length > 0 && (
-          <button className="text-sm text-rose-500 hover:text-rose-600 font-bold uppercase tracking-wider transition-colors">
+          <button
+            onClick={onClear} // Now it calls the function we passed!
+            className="text-sm text-rose-500 hover:text-rose-600 font-bold uppercase tracking-wider transition-colors"
+          >
             Clear All
           </button>
         )}
