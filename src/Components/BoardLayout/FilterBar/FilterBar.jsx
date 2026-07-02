@@ -1,58 +1,63 @@
-import { useState } from "react";
-import { FiSearch } from "react-icons/fi";
+import { FiSearch, FiFilter } from "react-icons/fi";
 
-const FilterBar = () => {
-  const [activeFilter, setActiveFilter] = useState("All");
-
+const FilterBar = ({
+  searchQuery,
+  setSearchQuery,
+  filterPriority,
+  setFilterPriority,
+}) => {
   const priorities = [
-    { name: "All", color: "bg-slate-500" },
+    { name: "All", color: "bg-slate-400" },
     { name: "High", color: "bg-rose-500" },
     { name: "Medium", color: "bg-amber-500" },
     { name: "Low", color: "bg-emerald-500" },
   ];
 
   return (
-    <section className="mt-6 w-full flex flex-col md:flex-row items-center justify-between gap-4">
-      {/* Left Side: Search Bar */}
-      <div className="relative w-full md:w-[49%] group">
+    <section className="mt-8 w-full flex flex-col md:flex-row items-center justify-between gap-4">
+      {/* Search Input */}
+      <div className="relative w-full md:w-96 group">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <FiSearch className="text-gray-400 group-focus-within:text-purple-500 transition-colors" />
+          <FiSearch
+            className={`transition-colors ${searchQuery ? "text-purple-500" : "text-gray-400"}`}
+          />
         </div>
         <input
           type="text"
-          placeholder="Search tasks..."
-          className="w-full pl-10 pr-4 py-3 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all text-slate-700 dark:text-slate-200 placeholder:text-slate-400 outline-none"
+          placeholder="Search tasks by title..."
+          className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-800 rounded-xl focus:outline-none focus:border-purple-500 transition-all text-slate-700 dark:text-slate-200"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
 
-      {/* Right Side: Priority Filters */}
+      {/* Priority Selector */}
       <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 no-scrollbar">
-        {/* Extra Filter Icon for Mobile/Visual polish */}
-        {/* <button className="p-3 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-lg text-slate-500 hover:text-purple-600 transition-colors">
-          <FiFilter />
-        </button> */}
-
-        <div className="flex items-center gap-2 bg-gray-100 dark:bg-slate-900/50 px-3 py-3 rounded-lg border border-gray-200 dark:border-slate-800">
-          {priorities.map((priority) => (
+        <div className="flex items-center gap-2 bg-gray-100 dark:bg-slate-900/50 p-1.5 rounded-2xl border border-gray-200 dark:border-slate-800">
+          {priorities.map((p) => (
             <button
-              key={priority.name}
-              onClick={() => setActiveFilter(priority.name)}
+              key={p.name}
+              onClick={() => setFilterPriority(p.name)}
               className={`
-                px-4 py-1 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap
+                px-4 py-1.5 rounded-xl text-sm font-bold transition-all duration-200 whitespace-nowrap
                 flex items-center gap-2
                 ${
-                  activeFilter === priority.name
-                    ? "bg-white dark:bg-slate-800 text-purple-600 dark:text-purple-400 shadow-sm ring-1 ring-gray-200 dark:ring-slate-700"
+                  filterPriority === p.name
+                    ? "bg-white dark:bg-slate-800 text-purple-600 shadow-md ring-1 ring-black/5"
                     : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
                 }
               `}
             >
-              {priority.name !== "All" && (
-                <span className={`w-2 h-2 rounded-full ${priority.color}`} />
+              {p.name !== "All" && (
+                <span className={`w-2 h-2 rounded-full ${p.color}`} />
               )}
-              {priority.name}
+              {p.name}
             </button>
           ))}
+        </div>
+
+        <div className="p-2.5 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-xl text-slate-400">
+          <FiFilter />
         </div>
       </div>
     </section>

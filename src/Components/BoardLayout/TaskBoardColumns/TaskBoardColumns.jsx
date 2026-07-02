@@ -1,12 +1,10 @@
-import Column from "../Column/Column";
 import { DragDropContext } from "@hello-pangea/dnd";
+import Column from "../Column/Column";
 
-
-// Helper function to calculate "Time Ago" (Junior friendly logic)
+// Helper function to calculate "Time Ago"
 const formatTimeAgo = (timestamp) => {
   const now = Date.now();
-  const diff = now - timestamp; // difference in milliseconds
-
+  const diff = now - timestamp;
   const minutes = Math.floor(diff / 60000);
   const hours = Math.floor(diff / 3600000);
   const days = Math.floor(diff / 86400000);
@@ -15,26 +13,27 @@ const formatTimeAgo = (timestamp) => {
   if (minutes < 60) return `${minutes}m ago`;
   if (hours < 24) return `${hours}h ago`;
   if (days < 7) return `${days}d ago`;
-  return new Date(timestamp).toLocaleDateString(); // fallback to date
+  return new Date(timestamp).toLocaleDateString();
 };
 
-const TaskBoardColumns = ({ tasks, setTasks }) => {
-  // 1. Filter tasks into their respective columns
+const TaskBoardColumns = ({ tasks, setTasks, onEditTask, onDeleteTask }) => {
+  // 1. Filter tasks into respective columns and add formatted time
   const todoTasks = tasks
     .filter((t) => t.status === "todo")
     .map((t) => ({ ...t, timeAgo: formatTimeAgo(t.timestamp) }));
+
   const inProgressTasks = tasks
     .filter((t) => t.status === "inProgress")
     .map((t) => ({ ...t, timeAgo: formatTimeAgo(t.timestamp) }));
+
   const doneTasks = tasks
     .filter((t) => t.status === "done")
     .map((t) => ({ ...t, timeAgo: formatTimeAgo(t.timestamp) }));
 
-  // 2. The Drag and Drop Logic
+  // 2. Drag and Drop Logic
   const onDragEnd = (result) => {
     const { source, destination, draggableId } = result;
 
-    // If dropped outside or in the same place, do nothing
     if (!destination) return;
     if (
       source.droppableId === destination.droppableId &&
@@ -42,35 +41,26 @@ const TaskBoardColumns = ({ tasks, setTasks }) => {
     )
       return;
 
-    // Create a copy of tasks to modify
     const updatedTasks = Array.from(tasks);
-
-    // Find the task that was moved
     const movedTaskIndex = updatedTasks.findIndex((t) => t.id === draggableId);
     const [movedTask] = updatedTasks.splice(movedTaskIndex, 1);
 
-    // Update the status of the moved task based on the destination column ID
+    // Update status based on destination column
     movedTask.status = destination.droppableId;
 
-    // Logic for reordering:
-    // This part is a bit tricky for a junior, so we simply push it into the new position
-    // First, get tasks NOT in the destination column
+    // Separate tasks to reinsert correctly in the destination column
     const otherTasks = updatedTasks.filter(
       (t) => t.status !== destination.droppableId,
     );
-    // Second, get tasks ALREADY in the destination column
     const destinationColTasks = updatedTasks.filter(
       (t) => t.status === destination.droppableId,
     );
 
-    // Insert the moved task into the specific index of the destination column
     destinationColTasks.splice(destination.index, 0, movedTask);
-
-    // Combine everything back together
     setTasks([...otherTasks, ...destinationColTasks]);
   };
 
-  // 3. Clear All logic for the "Done" column
+  // 3. Clear All Logic for Done Column
   const handleClearDone = () => {
     const remainingTasks = tasks.filter((t) => t.status !== "done");
     setTasks(remainingTasks);
@@ -79,17 +69,30 @@ const TaskBoardColumns = ({ tasks, setTasks }) => {
   return (
     <section className="mt-8">
       <DragDropContext onDragEnd={onDragEnd}>
-        {/* Container for the 3 columns */}
         <div className="flex flex-col lg:flex-row gap-6 overflow-x-auto pb-6 no-scrollbar min-h-[70vh]">
-          <Column id="todo" title="To Do" tasks={todoTasks} />
+          <Column
+            id="todo"
+            title="To Do"
+            tasks={todoTasks}
+            onEdit={onEditTask}
+            onDelete={onDeleteTask}
+          />
 
-          <Column id="inProgress" title="In Progress" tasks={inProgressTasks} />
+          <Column
+            id="inProgress"
+            title="In Progress"
+            tasks={inProgressTasks}
+            onEdit={onEditTask}
+            onDelete={onDeleteTask}
+          />
 
           <Column
             id="done"
             title="Done"
             tasks={doneTasks}
             onClear={handleClearDone}
+            onEdit={onEditTask}
+            onDelete={onDeleteTask}
           />
         </div>
       </DragDropContext>

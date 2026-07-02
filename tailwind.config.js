@@ -1,10 +1,16 @@
 /** @type {import('tailwindcss').Config} */
-import daisyui from "daisyui";
-
 export default {
-  content: ["./src/**/*.{js,jsx}"],
+  darkMode: "class", // This must be here!
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}", // This covers all subfolders in src
+    "./src/**/**/*.{js,ts,jsx,tsx}", // This covers even deeper subfolders
+  ],
   theme: {
     extend: {},
   },
-  plugins: [daisyui],
+  plugins: [require("daisyui")],
+  daisyui: {
+    themes: ["light", "dark"],
+  },
 };

@@ -1,7 +1,7 @@
 import { Draggable } from "@hello-pangea/dnd";
 import { MdEdit, MdDelete, MdDragIndicator } from "react-icons/md";
 
-const TaskCard = ({ task, index }) => {
+const TaskCard = ({ task, index, onEdit, onDelete }) => {
   const priorityColors = {
     high: "bg-rose-100 text-rose-600 border-rose-200 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/20",
     medium:
@@ -15,9 +15,7 @@ const TaskCard = ({ task, index }) => {
         <div
           ref={provided.innerRef}
           {...provided.draggableProps}
-          style={{
-            ...provided.draggableProps.style,
-          }}
+          style={{ ...provided.draggableProps.style }}
           className={`
             bg-white dark:bg-slate-900 p-5 rounded-lg border-2 mb-4 group transition-all
             ${
@@ -27,15 +25,13 @@ const TaskCard = ({ task, index }) => {
             }
           `}
         >
-          {/* Top Row */}
+          {/* Top Row: Priority & Drag Handle */}
           <div className="flex justify-between items-start mb-3">
             <span
               className={`text-xs font-bold px-3 py-1 rounded-lg border ${priorityColors[task.priority]}`}
             >
               {task.priority}
             </span>
-
-            {/* BIGGER Drag Handle Area */}
             <div
               {...provided.dragHandleProps}
               className="p-2 -mt-2 -mr-2 text-slate-400 hover:text-purple-500 cursor-grab active:cursor-grabbing transition-colors"
@@ -44,7 +40,7 @@ const TaskCard = ({ task, index }) => {
             </div>
           </div>
 
-          {/* Text Content - Larger Fonts */}
+          {/* Content */}
           <h4 className="text-slate-800 dark:text-white font-bold text-base mb-2 line-clamp-1 uppercase tracking-tight">
             {task.title}
           </h4>
@@ -52,22 +48,27 @@ const TaskCard = ({ task, index }) => {
             {task.description}
           </p>
 
-          {/* Footer */}
+          {/* Footer: Date & Actions */}
           <div className="flex justify-between items-center pt-4 border-t border-gray-100 dark:border-slate-800">
             <div className="flex flex-col">
               <span className="text-xs text-slate-400 font-medium">
                 {task.createdAt}
               </span>
-              <span className="text-xs font-bold text-purple-600 dark:text-purple-400">
-                {task.timeAgo}
-              </span>
             </div>
 
             <div className="flex items-center gap-2">
-              <button className="p-2 text-slate-500 hover:text-blue-500 bg-gray-50 dark:bg-slate-800 rounded-lg transition-all border border-gray-100 dark:border-slate-700">
+              {/* Edit Button */}
+              <button
+                onClick={() => onEdit(task)}
+                className="p-2 text-slate-500 hover:text-blue-500 bg-gray-50 dark:bg-slate-800 rounded-lg transition-all border border-gray-100 dark:border-slate-700"
+              >
                 <MdEdit size={18} />
               </button>
-              <button className="p-2 text-slate-500 hover:text-rose-500 bg-gray-50 dark:bg-slate-800 rounded-lg transition-all border border-gray-100 dark:border-slate-700">
+              {/* Delete Button */}
+              <button
+                onClick={() => onDelete(task.id)}
+                className="p-2 text-slate-500 hover:text-rose-500 bg-gray-50 dark:bg-slate-800 rounded-lg transition-all border border-gray-100 dark:border-slate-700"
+              >
                 <MdDelete size={18} />
               </button>
             </div>
