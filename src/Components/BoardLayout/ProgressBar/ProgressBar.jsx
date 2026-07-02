@@ -3,14 +3,15 @@ import { RiProgress3Line, RiPieChartLine } from "react-icons/ri";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 
 const ProgressBar = ({ tasks }) => {
-  // 1. Calculate Real Statistics
+  // --Calculate Task Statistics For Dashboard Overview---
   const total = tasks.length;
   const inProgress = tasks.filter((t) => t.status === "inProgress").length;
   const completed = tasks.filter((t) => t.status === "done").length;
 
-  // 2. Calculate Percentage (Safety check: if total is 0, percentage is 0)
+  // Calculate overall task completion percentage_
   const completionRate = total > 0 ? Math.round((completed / total) * 100) : 0;
 
+  // Dashboard statistics card data_
   const stats = [
     {
       id: 1,
@@ -23,7 +24,7 @@ const ProgressBar = ({ tasks }) => {
     {
       id: 2,
       label: "In Progress",
-      value: inProgress, // Dynamic value
+      value: inProgress,
       icon: <RiProgress3Line />,
       color: "text-blue-500",
       bgColor: "bg-blue-100 dark:bg-blue-500/10",
@@ -31,7 +32,7 @@ const ProgressBar = ({ tasks }) => {
     {
       id: 3,
       label: "Completed",
-      value: completed, // Dynamic value
+      value: completed,
       icon: <IoCheckmarkDoneCircleOutline />,
       color: "text-emerald-500",
       bgColor: "bg-emerald-100 dark:bg-emerald-500/10",
@@ -40,9 +41,7 @@ const ProgressBar = ({ tasks }) => {
 
   return (
     <section className="mt-5 w-full">
-      {/* 4-Column Grid: 1 on mobile, 2 on tablet, 4 on desktop */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-        {/* First 3 Info Cards */}
         {stats.map((stat) => (
           <div
             key={stat.id}
@@ -53,10 +52,12 @@ const ProgressBar = ({ tasks }) => {
             >
               {stat.icon}
             </div>
+
             <div>
               <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
                 {stat.label}
               </p>
+
               <h3 className="text-2xl font-bold text-slate-800 dark:text-white">
                 {stat.value}
               </h3>
@@ -64,23 +65,24 @@ const ProgressBar = ({ tasks }) => {
           </div>
         ))}
 
-        {/* 4th Card: Overall Completion */}
         <div className="px-5 py-3 rounded-lg bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300">
           <div className="flex justify-between items-center mb-2.5">
             <div className="flex items-center gap-2">
               <div className="text-xl p-2 rounded-lg bg-orange-100 dark:bg-orange-500/10 text-orange-500">
                 <RiPieChartLine />
               </div>
+
               <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
                 Progress
               </p>
             </div>
+
             <span className="text-sm font-bold text-purple-600 dark:text-purple-400">
               {completionRate}%
             </span>
           </div>
 
-          {/* Compact Progress Bar */}
+          {/* Progress indicator_ */}
           <div className="w-full h-1.5 bg-gray-100 dark:bg-slate-800 rounded-full overflow-hidden">
             <div
               className="h-full bg-purple-600 transition-all duration-1000 ease-out rounded-full shadow-[0_0_8px_rgba(147,51,234,0.5)]"

@@ -8,9 +8,11 @@ const AddTaskModal = ({ onAddTask }) => {
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("medium");
 
+  // --Handle New Task Creation---
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title || !description) {
+
+    if (!title.trim() || !description.trim()) {
       document.getElementById("add_task_modal").close();
 
       Swal.fire({
@@ -24,6 +26,7 @@ const AddTaskModal = ({ onAddTask }) => {
           document.getElementById("add_task_modal").showModal();
         }
       });
+
       return;
     }
 
@@ -63,9 +66,11 @@ const AddTaskModal = ({ onAddTask }) => {
     setTitle("");
     setDescription("");
     setPriority("medium");
+
     document.getElementById("add_task_modal").close();
   };
 
+  // Priority selection options_
   const priorityOptions = [
     {
       id: "low",
@@ -79,7 +84,12 @@ const AddTaskModal = ({ onAddTask }) => {
       color: "bg-amber-500",
       text: "text-amber-600",
     },
-    { id: "high", label: "High", color: "bg-rose-500", text: "text-rose-600" },
+    {
+      id: "high",
+      label: "High",
+      color: "bg-rose-500",
+      text: "text-rose-600",
+    },
   ];
 
   return (
@@ -88,16 +98,18 @@ const AddTaskModal = ({ onAddTask }) => {
       className="modal modal-bottom sm:modal-middle backdrop-blur-sm"
     >
       <div className="modal-box max-w-[768px] p-0 overflow-hidden bg-white dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-800 rounded-lg shadow-2xl">
-        {/* Header */}
+        {/* Modal Header_ */}
         <div className="bg-gray-50 dark:bg-slate-800/50 px-6 py-4 border-b border-gray-100 dark:border-slate-800 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <div className="bg-purple-600 p-1.5 rounded-lg text-white">
               <MdAdd size={20} />
             </div>
+
             <h3 className="font-extrabold text-slate-800 dark:text-white uppercase tracking-tight">
               Create New Task
             </h3>
           </div>
+
           <button
             onClick={() => document.getElementById("add_task_modal").close()}
             className="text-slate-400 hover:text-rose-500 transition-colors"
@@ -107,11 +119,12 @@ const AddTaskModal = ({ onAddTask }) => {
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          {/* Title Field */}
+          {/* Task Title Input_ */}
           <div className="space-y-2">
             <label className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider">
               <MdTitle className="text-purple-500 text-base" /> Task Title
             </label>
+
             <div className="relative">
               <input
                 type="text"
@@ -121,18 +134,20 @@ const AddTaskModal = ({ onAddTask }) => {
                 onChange={(e) => setTitle(e.target.value)}
                 maxLength={30}
               />
+
               <span className="absolute right-3 top-3.5 text-[10px] font-bold text-slate-400">
                 {title.length}/30
               </span>
             </div>
           </div>
 
-          {/* Description Field */}
+          {/* Task Description Input_ */}
           <div className="space-y-2">
             <label className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider">
               <MdDescription className="text-purple-500 text-base" />{" "}
               Description
             </label>
+
             <div className="relative">
               <textarea
                 placeholder="Provide some details..."
@@ -142,17 +157,19 @@ const AddTaskModal = ({ onAddTask }) => {
                 maxLength={100}
                 required
               />
+
               <span className="absolute right-3 bottom-3 text-[10px] font-bold text-slate-400">
                 {description.length}/100
               </span>
             </div>
           </div>
 
-          {/* Priority Selection - Visual Chips */}
+          {/* Priority Selection_ */}
           <div className="space-y-3">
             <label className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider">
               <MdFlag className="text-purple-500 text-base" /> Select Priority
             </label>
+
             <div className="grid grid-cols-3 gap-3">
               {priorityOptions.map((opt) => (
                 <button
@@ -171,6 +188,7 @@ const AddTaskModal = ({ onAddTask }) => {
                   <span
                     className={`w-2 h-2 rounded-full ${opt.color} shadow-[0_0_8px_rgba(0,0,0,0.1)]`}
                   />
+
                   <span
                     className={`text-xs font-bold ${priority === opt.id ? "text-purple-600 dark:text-purple-400" : "text-slate-500"}`}
                   >
@@ -181,7 +199,7 @@ const AddTaskModal = ({ onAddTask }) => {
             </div>
           </div>
 
-          {/* Action Buttons */}
+          {/* Form Actions_ */}
           <div className="flex items-center gap-3 pt-4">
             <button
               type="button"
@@ -190,6 +208,7 @@ const AddTaskModal = ({ onAddTask }) => {
             >
               Cancel
             </button>
+
             <button
               type="submit"
               className="flex-[2] py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg shadow-lg shadow-purple-500/30 active:scale-95 transition-all"

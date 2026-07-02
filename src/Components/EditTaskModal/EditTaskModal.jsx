@@ -6,36 +6,47 @@ const EditTaskModal = ({ task, onUpdate, onClose }) => {
   const [description, setDescription] = useState(task.description);
   const [priority, setPriority] = useState(task.priority);
 
-  // 2. THIS IS THE FIX:
-  // As soon as this component is rendered, open the modal
+  // --Open Edit Modal When Component Mounts---
   useEffect(() => {
     const modal = document.getElementById("edit_task_modal");
+
     if (modal) {
       modal.showModal();
     }
-  }, []); // Empty array means "run once when I appear"
+  }, []);
 
+  // Track whether task data has changed_
   const isChanged =
     title !== task.title ||
     description !== task.description ||
     priority !== task.priority;
 
+  // --Handle Task Update Submission---
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!title.trim() || !description.trim()) return;
+
     if (isChanged) {
-      onUpdate({ ...task, title, description, priority });
-      // DaisyUI/Native dialog close
+      onUpdate({
+        ...task,
+        title: title.trim(),
+        description: description.trim(),
+        priority,
+      });
+
       document.getElementById("edit_task_modal").close();
       onClose();
     }
   };
 
-  // Helper to handle closing via the "X" or "Cancel"
+  // Close modal and reset editing state_
   const handleClose = () => {
     document.getElementById("edit_task_modal").close();
     onClose();
   };
 
+  // Priority selection options_
   const priorityOptions = [
     { id: "low", label: "Low", color: "bg-emerald-500" },
     { id: "medium", label: "Medium", color: "bg-amber-500" },
@@ -48,11 +59,12 @@ const EditTaskModal = ({ task, onUpdate, onClose }) => {
       className="modal modal-bottom sm:modal-middle backdrop-blur-sm"
     >
       <div className="modal-box p-0 bg-white dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-800 rounded-lg shadow-2xl">
-        {/* Header */}
+        {/* Modal Header_ */}
         <div className="bg-gray-50 dark:bg-slate-800/50 px-6 py-4 border-b border-gray-100 dark:border-slate-800 flex justify-between items-center">
           <h3 className="font-extrabold text-slate-800 dark:text-white uppercase tracking-tight text-sm sm:text-base">
             Edit Task Details
           </h3>
+
           <button onClick={handleClose}>
             <MdClose
               size={24}
@@ -62,13 +74,12 @@ const EditTaskModal = ({ task, onUpdate, onClose }) => {
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          {/* ... Title, Description, and Priority inputs stay exactly the same as before ... */}
-          {/* (I'm skipping the middle code for brevity, keep your existing inputs here) */}
-
+          {/* Task Title Input_ */}
           <div className="space-y-2">
             <label className="text-xs font-bold text-slate-500 uppercase flex items-center gap-2">
               <MdTitle className="text-purple-500" /> Task Title
             </label>
+
             <input
               type="text"
               className="w-full bg-gray-50 dark:bg-slate-800 border-2 border-gray-200 dark:border-slate-700 rounded-lg px-4 py-3 focus:border-purple-500 outline-none transition-all"
@@ -78,10 +89,12 @@ const EditTaskModal = ({ task, onUpdate, onClose }) => {
             />
           </div>
 
+          {/* Task Description Input_ */}
           <div className="space-y-2">
             <label className="text-xs font-bold text-slate-500 uppercase flex items-center gap-2">
               <MdDescription className="text-purple-500" /> Description
             </label>
+
             <textarea
               className="w-full bg-gray-50 dark:bg-slate-800 border-2 border-gray-200 dark:border-slate-700 rounded-lg px-4 py-3 h-28 focus:border-purple-500 outline-none transition-all resize-none"
               value={description}
@@ -90,10 +103,12 @@ const EditTaskModal = ({ task, onUpdate, onClose }) => {
             />
           </div>
 
+          {/* Priority Selection_ */}
           <div className="space-y-3">
             <label className="text-xs font-bold text-slate-500 uppercase flex items-center gap-2">
               <MdFlag className="text-purple-500" /> Priority Level
             </label>
+
             <div className="grid grid-cols-3 gap-3">
               {priorityOptions.map((opt) => (
                 <button
@@ -107,8 +122,13 @@ const EditTaskModal = ({ task, onUpdate, onClose }) => {
                   }`}
                 >
                   <span className={`w-2 h-2 rounded-full ${opt.color}`} />
+
                   <span
-                    className={`text-xs font-bold ${priority === opt.id ? "text-purple-600 dark:text-purple-400" : "text-slate-500"}`}
+                    className={`text-xs font-bold ${
+                      priority === opt.id
+                        ? "text-purple-600 dark:text-purple-400"
+                        : "text-slate-500"
+                    }`}
                   >
                     {opt.label}
                   </span>
@@ -117,7 +137,7 @@ const EditTaskModal = ({ task, onUpdate, onClose }) => {
             </div>
           </div>
 
-          {/* Actions */}
+          {/* Form Actions_ */}
           <div className="flex items-center gap-3 pt-4">
             <button
               type="button"
@@ -126,6 +146,7 @@ const EditTaskModal = ({ task, onUpdate, onClose }) => {
             >
               Cancel
             </button>
+
             <button
               type="submit"
               disabled={!isChanged}

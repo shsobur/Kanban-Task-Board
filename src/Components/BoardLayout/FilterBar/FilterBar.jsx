@@ -6,6 +6,7 @@ const FilterBar = ({
   filterPriority,
   setFilterPriority,
 }) => {
+  // Priority filter configuration_
   const priorities = [
     { name: "All", color: "bg-slate-400" },
     { name: "High", color: "bg-rose-500" },
@@ -15,13 +16,14 @@ const FilterBar = ({
 
   return (
     <section className="mt-8 w-full flex flex-col md:flex-row items-center justify-between gap-4">
-      {/* Search Input */}
+      {/* Search Task By Title_ */}
       <div className="relative w-full md:w-96 group">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <FiSearch
             className={`transition-colors ${searchQuery ? "text-purple-500" : "text-gray-400"}`}
           />
         </div>
+
         <input
           type="text"
           placeholder="Search tasks by title..."
@@ -31,7 +33,7 @@ const FilterBar = ({
         />
       </div>
 
-      {/* Priority Selector */}
+      {/* Priority Filtering Controls_ */}
       <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 no-scrollbar">
         <div className="flex items-center gap-2 bg-gray-100 dark:bg-slate-900/50 p-1.5 rounded-2xl border border-gray-200 dark:border-slate-800">
           {priorities.map((p) => (
@@ -51,6 +53,7 @@ const FilterBar = ({
               {p.name !== "All" && (
                 <span className={`w-2 h-2 rounded-full ${p.color}`} />
               )}
+
               {p.name}
             </button>
           ))}

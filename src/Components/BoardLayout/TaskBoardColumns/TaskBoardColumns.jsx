@@ -1,7 +1,7 @@
 import { DragDropContext } from "@hello-pangea/dnd";
 import Column from "../Column/Column";
 
-// Helper function to calculate "Time Ago"
+// Format timestamp into user-friendly relative time_
 const formatTimeAgo = (timestamp) => {
   const now = Date.now();
   const diff = now - timestamp;
@@ -13,11 +13,12 @@ const formatTimeAgo = (timestamp) => {
   if (minutes < 60) return `${minutes}m ago`;
   if (hours < 24) return `${hours}h ago`;
   if (days < 7) return `${days}d ago`;
+
   return new Date(timestamp).toLocaleDateString();
 };
 
 const TaskBoardColumns = ({ tasks, setTasks, onEditTask, onDeleteTask }) => {
-  // 1. Filter tasks into respective columns and add formatted time
+  // --Prepare Tasks For Each Board Column---
   const todoTasks = tasks
     .filter((t) => t.status === "todo")
     .map((t) => ({ ...t, timeAgo: formatTimeAgo(t.timestamp) }));
@@ -30,37 +31,43 @@ const TaskBoardColumns = ({ tasks, setTasks, onEditTask, onDeleteTask }) => {
     .filter((t) => t.status === "done")
     .map((t) => ({ ...t, timeAgo: formatTimeAgo(t.timestamp) }));
 
-  // 2. Drag and Drop Logic
+  // --Handle Task Reordering And Status Changes---
   const onDragEnd = (result) => {
     const { source, destination, draggableId } = result;
 
     if (!destination) return;
+
     if (
       source.droppableId === destination.droppableId &&
       source.index === destination.index
-    )
+    ) {
       return;
+    }
 
     const updatedTasks = Array.from(tasks);
+
     const movedTaskIndex = updatedTasks.findIndex((t) => t.id === draggableId);
+
     const [movedTask] = updatedTasks.splice(movedTaskIndex, 1);
 
-    // Update status based on destination column
+    // Update task status based on destination column_
     movedTask.status = destination.droppableId;
 
-    // Separate tasks to reinsert correctly in the destination column
+    // Separate destination column tasks for correct insertion order_
     const otherTasks = updatedTasks.filter(
       (t) => t.status !== destination.droppableId,
     );
+
     const destinationColTasks = updatedTasks.filter(
       (t) => t.status === destination.droppableId,
     );
 
     destinationColTasks.splice(destination.index, 0, movedTask);
+
     setTasks([...otherTasks, ...destinationColTasks]);
   };
 
-  // 3. Clear All Logic for Done Column
+  // --Remove All Completed Tasks---
   const handleClearDone = () => {
     const remainingTasks = tasks.filter((t) => t.status !== "done");
     setTasks(remainingTasks);

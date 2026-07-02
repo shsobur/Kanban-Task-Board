@@ -4,12 +4,13 @@ import TaskCard from "../TaskCard/TaskCard";
 const Column = ({ title, tasks, id, onClear, onEdit, onDelete }) => {
   return (
     <div className="flex flex-col w-full min-w-[320px] bg-gray-50 dark:bg-slate-900/20 rounded-lg border-2 border-gray-200 dark:border-slate-800 p-5">
-      {/* Header */}
+      {/* Column Header_ */}
       <div className="flex justify-between items-center mb-6 px-1">
         <div className="flex items-center gap-3">
           <h3 className="text-slate-800 dark:text-slate-100 font-extrabold text-lg tracking-tight">
             {title}
           </h3>
+
           <span className="bg-purple-600 text-white text-xs font-bold px-2.5 py-0.5 rounded-lg shadow-md shadow-purple-500/20">
             {tasks.length}
           </span>
@@ -25,7 +26,8 @@ const Column = ({ title, tasks, id, onClear, onEdit, onDelete }) => {
         )}
       </div>
 
-      {/* Droppable Area */}
+      {/* --Task Drop Zone---
+       */}
       <Droppable droppableId={id}>
         {(provided, snapshot) => (
           <div
@@ -42,10 +44,11 @@ const Column = ({ title, tasks, id, onClear, onEdit, onDelete }) => {
                 key={task.id}
                 task={task}
                 index={index}
-                onEdit={onEdit} // Pass Edit function to card
-                onDelete={onDelete} // Pass Delete function to card
+                onEdit={onEdit}
+                onDelete={onDelete}
               />
             ))}
+
             {provided.placeholder}
           </div>
         )}

@@ -2,6 +2,7 @@ import { Draggable } from "@hello-pangea/dnd";
 import { MdEdit, MdDelete, MdDragIndicator } from "react-icons/md";
 
 const TaskCard = ({ task, index, onEdit, onDelete }) => {
+  // Priority badge styling configuration_
   const priorityColors = {
     high: "bg-rose-100 text-rose-600 border-rose-200 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/20",
     medium:
@@ -25,13 +26,13 @@ const TaskCard = ({ task, index, onEdit, onDelete }) => {
             }
           `}
         >
-          {/* Top Row: Priority & Drag Handle */}
           <div className="flex justify-between items-start mb-3">
             <span
               className={`text-xs font-bold px-3 py-1 rounded-lg border ${priorityColors[task.priority]}`}
             >
               {task.priority}
             </span>
+
             <div
               {...provided.dragHandleProps}
               className="p-2 -mt-2 -mr-2 text-slate-400 hover:text-purple-500 cursor-grab active:cursor-grabbing transition-colors"
@@ -40,31 +41,35 @@ const TaskCard = ({ task, index, onEdit, onDelete }) => {
             </div>
           </div>
 
-          {/* Content */}
           <h4 className="text-slate-800 dark:text-white font-bold text-base mb-2 line-clamp-1 uppercase tracking-tight">
             {task.title}
           </h4>
+
           <p className="text-slate-600 dark:text-slate-400 text-sm line-clamp-3 mb-5 leading-relaxed">
             {task.description}
           </p>
 
-          {/* Footer: Date & Actions */}
           <div className="flex justify-between items-center pt-4 border-t border-gray-100 dark:border-slate-800">
             <div className="flex flex-col">
               <span className="text-xs text-slate-400 font-medium">
                 {task.createdAt}
               </span>
+
+              {task.timeAgo && (
+                <span className="text-[11px] text-slate-500 dark:text-slate-500">
+                  {task.timeAgo}
+                </span>
+              )}
             </div>
 
             <div className="flex items-center gap-2">
-              {/* Edit Button */}
               <button
                 onClick={() => onEdit(task)}
                 className="p-2 text-slate-500 hover:text-blue-500 bg-gray-50 dark:bg-slate-800 rounded-lg transition-all border border-gray-100 dark:border-slate-700"
               >
                 <MdEdit size={18} />
               </button>
-              {/* Delete Button */}
+
               <button
                 onClick={() => onDelete(task.id)}
                 className="p-2 text-slate-500 hover:text-rose-500 bg-gray-50 dark:bg-slate-800 rounded-lg transition-all border border-gray-100 dark:border-slate-700"
